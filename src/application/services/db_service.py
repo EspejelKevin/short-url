@@ -1,0 +1,21 @@
+from domain import DBRepository, ShorterDTO
+
+
+class DBService(DBRepository):
+    def __init__(self, repository: DBRepository) -> None:
+        self.repository = repository
+
+    def get_url_by_id(self, id: str) -> ShorterDTO:
+        return self.repository.get_url_by_id(id)
+    
+    def get_url_by_code(self, code) -> ShorterDTO:
+        return self.repository.get_url_by_code(code)
+    
+    def create_shorter(self, shorter: ShorterDTO) -> bool:
+        return self.repository.create_shorter(shorter)
+    
+    def update_shorter(self, shorter: ShorterDTO) -> bool:
+        return self.repository.update_shorter(shorter)
+    
+    def delete_shorter(self, id: str) -> bool:
+        return self.repository.delete_shorter(id)
