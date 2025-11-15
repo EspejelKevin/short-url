@@ -12,6 +12,10 @@ class DBRepository(metaclass=ABCMeta):
         raise NotImplementedError
     
     @abstractmethod
+    def get_shorter_by_url(self, url: str) -> ShorterDTO:
+        raise NotImplementedError
+    
+    @abstractmethod
     def create_shorter(self, shorter: ShorterDTO) -> bool:
         raise NotImplementedError
     

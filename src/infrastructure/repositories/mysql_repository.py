@@ -25,6 +25,16 @@ class MySQLRepository(DBRepository):
             shorter = cursor.fetchone()
             return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2])
         
+    def get_shorter_by_url(self, url: str) -> ShorterDTO:
+        with self.db_factory() as db:
+            session = db.get_session()
+            cursor = session.cursor()
+            query = 'SELECT * FROM shorter WHERE url=%s'
+            data = (url,)
+            cursor.execute(query, data)
+            shorter = cursor.fetchone()
+            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2])
+        
     def create_shorter(self, shorter: ShorterDTO) -> bool:
         try:
             with self.db_factory() as db:

@@ -8,8 +8,11 @@ class DBService(DBRepository):
     def get_url_by_id(self, id: str) -> ShorterDTO:
         return self.repository.get_url_by_id(id)
     
-    def get_url_by_code(self, code) -> ShorterDTO:
+    def get_url_by_code(self, code: str) -> ShorterDTO:
         return self.repository.get_url_by_code(code)
+    
+    def get_shorter_by_url(self, url: str) -> ShorterDTO:
+        return self.repository.get_shorter_by_url(url)
     
     def create_shorter(self, shorter: ShorterDTO) -> bool:
         return self.repository.create_shorter(shorter)
