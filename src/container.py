@@ -11,13 +11,13 @@ from domain import Settings
 class RepositoriesContainer(containers.DeclarativeContainer):
     settings = providers.Dependency(Settings)
     mysql = providers.Singleton(MySQL, host=settings.provided.MYSQL_HOST, user=settings.provided.MYSQL_USER,
-                                password=settings.provided.MYSQL_PASSWORD, db=settings.provided.MYSQL_DATABASE)
-    mysql_repository = providers.Singleton(MySQLRepository, database=mysql.provider)
+                                password=settings.provided.MYSQL_PASSWORD, db=settings.provided.MYSQL_DB)
+    mysql_repository = providers.Singleton(MySQLRepository, db_factory=mysql.provider)
 
 
 class ServicesContainer(containers.DeclarativeContainer):
     repositories: RepositoriesContainer = providers.DependenciesContainer()
-    db_service = providers.Factory(DBService, db_repository=repositories.mysql_repository)
+    db_service = providers.Factory(DBService, repository=repositories.mysql_repository)
 
 
 class UseCasesContainer(containers.DeclarativeContainer):
@@ -34,7 +34,7 @@ class AppContainer(containers.DeclarativeContainer):
     services = providers.Container(
         ServicesContainer, repositories=repositories)
     use_cases = providers.Container(
-        UseCasesContainer, services=services, settings=settings)
+        UseCasesContainer, services=services)
 
 
 class SingletonContainer:

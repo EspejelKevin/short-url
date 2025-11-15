@@ -13,7 +13,7 @@ class GetURL:
                      'timestamp': datetime.now()}
 
     def execute(self, code: uuid.UUID) -> Response:
-        shorter = self.db_service.get_url_by_code(code)
+        shorter = self.db_service.get_url_by_code(str(code))
 
         if not shorter:
             raise HTTPException(404, detail=f'shorter not found: {code}')
