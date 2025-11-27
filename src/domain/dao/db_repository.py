@@ -20,7 +20,7 @@ class DBRepository(metaclass=ABCMeta):
         raise NotImplementedError
     
     @abstractmethod
-    def update_shorter(self, shorter: ShorterDTO) -> bool:
+    def update_shorter(self, code: str, shorter: ShorterDTO) -> bool:
         raise NotImplementedError
     
     @abstractmethod

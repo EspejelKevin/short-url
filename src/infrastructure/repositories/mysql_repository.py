@@ -13,7 +13,7 @@ class MySQLRepository(DBRepository):
             data = (id,)
             cursor.execute(query, data)
             shorter = cursor.fetchone()
-            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2])
+            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2]) if shorter else None
 
     def get_url_by_code(self, code: str) -> ShorterDTO:
         with self.db_factory() as db:
@@ -23,7 +23,7 @@ class MySQLRepository(DBRepository):
             data = (code,)
             cursor.execute(query, data)
             shorter = cursor.fetchone()
-            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2])
+            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2]) if shorter else None
         
     def get_shorter_by_url(self, url: str) -> ShorterDTO:
         with self.db_factory() as db:
@@ -33,7 +33,7 @@ class MySQLRepository(DBRepository):
             data = (url,)
             cursor.execute(query, data)
             shorter = cursor.fetchone()
-            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2])
+            return ShorterDTO(id=shorter[0], url=shorter[1], code=shorter[2]) if shorter else None
         
     def create_shorter(self, shorter: ShorterDTO) -> bool:
         try:
@@ -47,25 +47,25 @@ class MySQLRepository(DBRepository):
         except Exception:
             return False
         
-    def update_shorter(self, shorter: ShorterDTO) -> bool:
+    def update_shorter(self, code: str, shorter: ShorterDTO) -> bool:
         try:
             with self.db_factory() as db:
                 session = db.get_session()
                 cursor = session.cursor()
-                query = 'UPDATE shorter set url=%s, code=%s'
-                data = (shorter.url, shorter.code)
+                query = 'UPDATE shorter set url=%s, code=%s WHERE code=%s'
+                data = (shorter.url, shorter.code, code)
                 cursor.execute(query, data)
                 return cursor.rowcount > 0
         except Exception:
             return None
         
-    def delete_shorter(self, id: str) -> bool:
+    def delete_shorter(self, code: str) -> bool:
         try:
             with self.db_factory() as db:
                 session = db.get_session()
                 cursor = session.cursor()
-                query = 'DELETE FROM shorter WHERE id=%s'
-                data = (id,)
+                query = 'DELETE FROM shorter WHERE code=%s'
+                data = (code,)
                 cursor.execute(query, data)
                 return cursor.rowcount > 0
         except Exception:

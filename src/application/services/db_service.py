@@ -17,8 +17,8 @@ class DBService(DBRepository):
     def create_shorter(self, shorter: ShorterDTO) -> bool:
         return self.repository.create_shorter(shorter)
     
-    def update_shorter(self, shorter: ShorterDTO) -> bool:
-        return self.repository.update_shorter(shorter)
+    def update_shorter(self, code: str, shorter: ShorterDTO) -> bool:
+        return self.repository.update_shorter(code, shorter)
     
-    def delete_shorter(self, id: str) -> bool:
-        return self.repository.delete_shorter(id)
+    def delete_shorter(self, code: str) -> bool:
+        return self.repository.delete_shorter(code)

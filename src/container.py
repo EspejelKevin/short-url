@@ -4,7 +4,8 @@ from contextlib import contextmanager
 from typing import Optional
 
 from infrastructure import MySQL, MySQLRepository
-from application import (DBService, GetURL, CreateShorter)
+from application import (DBService, GetURL,
+                         CreateShorter, UpdateURL, DeleteShorter)
 from domain import Settings
 
 
@@ -25,6 +26,8 @@ class UseCasesContainer(containers.DeclarativeContainer):
     settings = providers.Dependency(Settings)
     get_url = providers.Factory(GetURL, db_service=services.db_service)
     create_shorter = providers.Factory(CreateShorter, db_service=services.db_service)
+    update_url = providers.Factory(UpdateURL, db_service=services.db_service)
+    delete_shorter = providers.Factory(DeleteShorter, db_service=services.db_service)
 
 
 class AppContainer(containers.DeclarativeContainer):
